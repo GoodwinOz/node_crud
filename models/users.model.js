@@ -8,13 +8,13 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING
         },
-        date_of_birth: {
+        dateOfBirth: {
             type: Sequelize.STRING
         },
-        mobile_number: {
+        mobileNumber: {
             type: Sequelize.STRING
         },
-        osint_info: {
+        osintInfo: {
             type: Sequelize.STRING
         }
     })

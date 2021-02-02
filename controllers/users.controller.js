@@ -2,7 +2,42 @@ const db = require('../models')
 const User = db.users
 const Op = db.Sequelize.Op
 
-//Create & save User
+    // Create & save User
+
+// router.post('/', async(req, res) => {
+//     let { name, dateOfBirth, mobileNumber, osintInfo } = req.body
+//     try {
+//         let newUser = await Users.create({
+//             name,
+//             dateOfBirth,
+//             mobileNumber,
+//             osintInfo
+//         }, {
+//             fields: ['name', 'dateOfBirh', 'mobileNumber', 'osintInfo']
+//         })
+//         if (newUser) {
+//             res.json({
+//                 result: 'ok',
+//                 message: 'New user created'
+//             })
+//         }
+//     } catch(e) {
+//         console.log(e)
+//     }
+// })
+
+
+// app.post ('/api/users', async (req, res) => {
+//     try {
+//         let newUser = new User(req.body)
+//         await newUser.save()
+//         res.json({ user: newUser })
+//     } catch(e) {
+//         console.log(e)
+//     }    
+// })
+
+
 exports.create = (req, res) => {
     if (!req.body.name) {
         res.status(400).send({
@@ -14,9 +49,9 @@ exports.create = (req, res) => {
     //Create User
     const user = {
         name: req.body.name,
-        date_of_birth: req.body.date_of_birth,
-        mobile_number: req.body.mobile_number,
-        osint_info: req.body.osint_info,
+        dateOfBith: req.body.dateOfBirth,
+        mobileNumber: req.body.mobileNumber,
+        osintInfo: req.body.osintInfo,
         registered: req.body.registered ? req.body.registered : false
     }
 
