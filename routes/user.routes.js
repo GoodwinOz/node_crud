@@ -1,4 +1,5 @@
 const {Router} = require('express')
+const users = require('../models/model.index')
 const Users = require('../models/model.index')
 const router = Router()
 
@@ -12,6 +13,7 @@ router.post('/', async (req, res) => {
             mobileNumber: req.body.mobileNumber,
             dateOfBirth: req.body.dateOfBirth,
             osintInfo: req.body.osintInfo,
+            avatarUrl: req.body.avatarUrl, //(?)
             active: false
         })
         res.status(201).json({user})
@@ -32,6 +34,16 @@ router.get('/', async(req, res) => {
     }
 })
 
+//user findById
+router.get('/:id', async(req, res) => {
+    try {
+        const user = await Users.findByPk(+req.params.id)
+        res.status(200).json({user})
+    } catch(e) {
+        console.log(e)
+    }
+})
+
 
 //User update
 router.put('/:id', async (req, res) => {
@@ -46,6 +58,7 @@ router.put('/:id', async (req, res) => {
     }
 })
 
+//Delete user by ID
 router.delete('/:id', async (req, res) => {
     try {
        const users = await Users.findAll({
@@ -60,6 +73,28 @@ router.delete('/:id', async (req, res) => {
         console.log(e)
         // res.status(500).json({ message: 'Server error' })
     }
+})
+
+
+
+router.post('/', async(req, res) => {
+    try {
+        const user = await Users.findByPk(+req.user.id)
+        const toChange = {
+            avatarUrl: req.body.avatarUrl
+        }
+        if(req.file) {
+            toChange.avatarUrl = req.file.path //Path to file directory (for uploading)
+        }
+    
+        Object.assign(user, toChange)
+        
+        await user.save()
+
+    } catch(e) {
+        console.log(e)
+    }
+    
 })
 
 

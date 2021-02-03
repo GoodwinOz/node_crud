@@ -4,19 +4,19 @@ const sequelize = require('./config/db.config')
 const app = express()
 const PORT = process.env.PORT || 3000
 const usersRoutes = require('./routes/user.routes')
+const fileMiddleware = require('./middleware/file')
 
 // app.use(express.static(path.join(__dirname, '/')))
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(express.json())
 app.use('/api/users', usersRoutes)
+app.use(fileMiddleware.single('avatar')) //(?) 'avatar' - fieldname where Obj(img) will be handled
 
 
 
 app.get('/', (req, res, next) => {
     res.json({ message: 'Main' })
 })
-
-
-
 
 
 async function start() {

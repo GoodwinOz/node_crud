@@ -32,6 +32,11 @@ const users = sequelize.define('Users', {
     active: {
         type: Sequelize.BOOLEAN,
         allowNull: false
+    },
+    avatarUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ""
     }
 })
 
