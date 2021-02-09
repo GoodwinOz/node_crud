@@ -1,22 +1,34 @@
-const express = require('express')
-const path = require('path')
-const sequelize = require('./config/db.config')
+import express from 'express'
+import path from 'path'
+import sequelize from './config/db.config'
 const app = express()
 const PORT = process.env.PORT || 3000
-const usersRoutes = require('./routes/user.routes')
-const fileMiddleware = require('./middleware/file')
+import usersRoutes from './routes/user.routes'
+import postRoutes from './routes/post.routes'
+import uploadFile from './middleware/file'
 
-// app.use(express.static(path.join(__dirname, '/')))
-app.use('/images', express.static(path.join(__dirname, 'images')))
+
+app.use(express.static(path.join(__dirname, '/')))
+// app.use('/upload', express.static(path.join(__dirname, 'upload')))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use('/api/users', usersRoutes)
-app.use(fileMiddleware.single('avatar')) //(?) 'avatar' - fieldname where Obj(img) will be handled
+app.use('/api/posts', postRoutes)
+
+
+app.use('/api/upload', uploadFile.single('file'), (req, res) => {
+    console.log(req.file)
+    return res.send('Single file uploaded')
+})
+// app.use(uploadImage()) //(?) 'avatar' - fieldname where Obj(img) will be handled
 
 
 
 app.get('/', (req, res, next) => {
     res.json({ message: 'Main' })
 })
+
+
 
 
 async function start() {
@@ -28,10 +40,7 @@ async function start() {
     }
 }
 
-
 start()
-
-
 
 
 // const express = require('express')

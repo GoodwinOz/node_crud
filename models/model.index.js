@@ -1,6 +1,7 @@
 // const { Sequelize } = require('sequelize')
-const Sequelize = require('sequelize')
-const sequelize = require('../config/db.config')
+import Sequelize from 'sequelize'
+import sequelize from '../config/db.config'
+import Post from './post.model'
 
 const users = sequelize.define('Users', {
     id: {
@@ -12,35 +13,47 @@ const users = sequelize.define('Users', {
     name: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: ""
+        // defaultValue: ""
     },
     dateOfBirth: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: ""
+        // defaultValue: ""
     },
     mobileNumber: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: ""
+        // defaultValue: ""
     },
-    osintInfo: {
+    password: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: ""
+        // defaultValue: ""
     },
-    active: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-    },
-    avatarUrl: {
+    gender: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: ""
+        // defaultValue: ""
+    },
+    profileUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        // defaultValue: ""
     }
+    // avatarUrl: {
+    //     type: Sequelize.STRING,
+    //     allowNull: false,
+    //     defaultValue: ""
+    // }
 })
 
-module.exports = users
+users.hasMany(Post, { foreignKey: 'userID', sourceKey: 'id' });
+Post.belongsTo(users, { foreignKey: 'userID', targetKey: 'id' });
+
+export default users
+
+
+// module.exports = users
 
 
 // const dbConfig = require('../config/db.config')

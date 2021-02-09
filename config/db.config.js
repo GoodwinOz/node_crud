@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+import Sequelize from 'sequelize'
 
 const DB_NAME = 'users'
 const USER_NAME = 'main'
@@ -23,4 +23,7 @@ const sequelize = new Sequelize(DB_NAME, USER_NAME, PASSWORD, {
 //     }
 // }
 
-module.exports = sequelize
+
+// import image from '../models/file.models'
+
+export default sequelize

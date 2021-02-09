@@ -2,7 +2,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, 'images') //null || error
+        cb(null, 'uploads/') //null || error
     },
     filename(req, file, cb) {
         cb(null, new Date().toISOString() + '-' + file.originalname)
@@ -19,7 +19,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-module.exports = multer({
-    storage, //storage: storage
-    fileFilter //fileFilter: fileFilter
-})
+
+
+const uploadFile = multer({ storage, fileFilter })
+module.exports = uploadFile
