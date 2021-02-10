@@ -10,40 +10,38 @@ const users = sequelize.define('Users', {
         allowNull: false,
         type: Sequelize.INTEGER
     },
-    name: {
+    login: {
         type: Sequelize.STRING,
         allowNull: false,
-        // defaultValue: ""
     },
-    dateOfBirth: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        // defaultValue: ""
-    },
-    mobileNumber: {
+    nameAndSurname: {
         type: Sequelize.STRING,
         allowNull: false,
-        // defaultValue: ""
     },
     password: {
         type: Sequelize.STRING,
         allowNull: false,
-        // defaultValue: ""
     },
+    mobileNumber: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },    
     gender: {
         type: Sequelize.STRING,
         allowNull: false,
-        // defaultValue: ""
     },
-    profileUrl: {
+    email: {
         type: Sequelize.STRING,
         allowNull: false,
-        // defaultValue: ""
-    }
+    },
+    status: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }//,
     // avatarUrl: {
     //     type: Sequelize.STRING,
     //     allowNull: false,
-    //     defaultValue: ""
+    //     defaultValue: ''
     // }
 })
 
