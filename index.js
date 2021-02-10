@@ -14,7 +14,7 @@ require('dotenv').config()
 
 
 app.use(express.static(path.join(__dirname, '/')))
-app.use(express.static(path.join(__dirname, '/upload')))
+app.use(express.static(path.join(__dirname, '/uploads')))
 // app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(express.urlencoded({ extended: false }))
 app.use(session({
