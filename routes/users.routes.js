@@ -2,9 +2,9 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 require('dotenv').config()
-import Users from '../models/model.index'
-import { isEmpty, isBoolean, toDate, isInt, isURL } from "validator"
-import Post from '../models/post.model'
+import Users from '../models/users.model'
+// import { isEmpty, isBoolean, toDate, isInt, isURL } from "validator"
+import Posts from '../models/post.model'
 const router = express.Router()
 
 
@@ -14,6 +14,11 @@ router.post('/register', async (req, res) => {
     const {login, nameAndSurname, password, mobileNumber, gender, email, status, /*avatarUrl*/ } = req.body
 
     try {
+        let emailCheck = await Users.findOne({ where: { email }})
+        if (emailCheck) { 
+            return res.status(400).send('Email is already in use.') 
+        }
+
         const hashedPass = await bcrypt.hash(password, 10)
         const user = await Users.create({
             login, //: req.body.login,
@@ -22,8 +27,7 @@ router.post('/register', async (req, res) => {
             mobileNumber, //: req.body.mobileNumber,
             gender, //: req.body.gender,
             email,  //: req.body.email
-            status//, // admin/user/content creator etc. for future validation
-            //avatarUrl
+            status // admin/user/content creator etc. for future validation
         })
         // const userSignup = await user.save()
 
@@ -64,21 +68,22 @@ router.post('/login', async(req, res) => {
     
     const users = await Users.findOne({
         where: {
-        login: req.body.login
+        email: req.body.email
             // password: req.body.password
             // status
         }
     })
     // console.log(users)
+    const userData = { id: users.id, email: users.email, login: users.login }
 
     try {
-        const decryptedPass = await bcrypt.compare(req.body.password/*.toString()*/, users.password/*.toString()*/)
+        const decryptedPass = await bcrypt.compare(req.body.password, users.password)
 
-        const token = await jwt.sign(JSON.stringify(users), process.env.SECRET, /*{
-            expiresIn: 86400
-        }*/)
+        const token = await jwt.sign(userData, process.env.SECRET, {
+            expiresIn: process.env.EXPIRESIN
+        })
         if(decryptedPass) {
-            res.header('auth-token', token).json({
+            res.header('Authorization', token).json({
                 error: null,
                 data: {
                     token
@@ -187,7 +192,7 @@ router.get('/:id', async(req, res) => {
                 id: id
             },
             include: {
-                model: Post,
+                model: Posts,
                 as: 'posts',
                 require: false
             }

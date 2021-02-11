@@ -5,10 +5,10 @@ import path from 'path'
 import sequelize from './config/db.config'
 const app = express()
 const PORT = process.env.PORT || 3000
-import usersRoutes from './routes/user.routes'
+import usersRoutes from './routes/users.routes'
 import postRoutes from './routes/post.routes'
 import uploadRoutes from './routes/file.routes'
-import uploadFile from './middleware/file'
+// import uploadFile from './middleware/file'
 import verifyToken from './middleware/validate.token'
 require('dotenv').config()
 
@@ -26,7 +26,7 @@ app.use(express.json())
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/api/users', usersRoutes)
-app.use('/api/posts', verifyToken, postRoutes)
+app.use('/api/posts', verifyToken, postRoutes) //added verification for *get'ting* Posts list
 app.use('/api/upload', uploadRoutes)
 
 
